@@ -80,6 +80,7 @@ echo $OUTPUT->header();
     </head>
     <body>
     <div class="">
+        <h1><?=$dllc->name?> du <?=userdate($dllc->dateheuredebut)?></h1>
         <?php
 
 
@@ -100,18 +101,20 @@ echo $OUTPUT->header();
                 <th scope="col">Salle</th>
                 <th scope="col">Niveau</th>
                 <th scope="col">Nombre de Place Disponible</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <th scope="row"></th>
-                <td><?=$dllc->dateheuredebut?></td>
-                <td><?=$dllc->dateheurefin?></td>
-                <td><?=$dllc->ateliers?></td>
+                <td><?=userdate($dllc->dateheuredebut)?></td>
+                <td><?=userdate($dllc->dateheurefin)?></td>
+                <td><?=get_string($dllc->ateliers,'dllc')?></td>
                 <td><?=$dllc->c_atelier?></td>
                 <td><?=$dllc->salle?></td>
-                <td><?=$dllc->niveau?></td>
+                <td><?=get_string($dllc->niveau,'dllc')?></td>
                 <td><?=$dllc->nbplacedispo?></td>
+                <td><a href="" class="btn btn-primary"> S'inscrire</a></td>
             </tr>
             </tbody>
         </table>

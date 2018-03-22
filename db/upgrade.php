@@ -130,7 +130,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field salle to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('salle', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('salle', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field salle.
         if (!$dbman->field_exists($table, $field)) {
@@ -139,7 +139,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field c_atelier to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('c_atelier', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('c_atelier', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field c_atelier.
         if (!$dbman->field_exists($table, $field)) {
@@ -148,7 +148,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field niveau to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('niveau', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('niveau', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field niveau.
         if (!$dbman->field_exists($table, $field)) {
@@ -157,7 +157,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field ateliers type to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('ateliers', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('ateliers', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field ateliers.
         if (!$dbman->field_exists($table, $field)) {
@@ -166,7 +166,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field dateheuredebut to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('dateheuredebut', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('dateheuredebut', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field dateheuredebut.
         if (!$dbman->field_exists($table, $field)) {
@@ -175,7 +175,7 @@ function xmldb_dllc_upgrade($oldversion) {
 
         // Define field dateheurefin to be added to dllc.
         $table = new xmldb_table('dllc');
-        $field = new xmldb_field('dateheurefin', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $field = new xmldb_field('dateheurefin', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null);
 
         // Add field dateheurefin.
         if (!$dbman->field_exists($table, $field)) {

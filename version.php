@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_dllc';
-$plugin->version = 2016052309;
+$plugin->version = 2016052312;
 $plugin->release = 'v1.6';
 $plugin->requires = 2014051200;
 $plugin->maturity = MATURITY_ALPHA;

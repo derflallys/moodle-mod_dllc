@@ -48,4 +48,10 @@ $string['ateliers'] = 'Type d\'atelier ';
 $string['dateheuredebut'] = 'Date Debut Atelier ';
 $string['dateheurefin'] = 'Date Fin Atelier';
 $string['nbplacedispo'] = 'Nombre de Place Disponible';
+$string['atelierponc'] = 'Ateliers Ponctuels';
+$string['toeic'] = 'Prepatation TOEICS';
+$string['groupediss'] = 'Groupes de Discussions';
+$string['interm'] = 'Intermediaire';
+$string['avance'] = 'Avancés';
+$string['element'] = 'Elementaire';
 

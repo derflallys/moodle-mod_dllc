@@ -75,7 +75,9 @@ function dllc_supports($feature) {
  * @return int The id of the newly inserted dllc record
  */
 function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
-    global $DB;
+    global $DB,$COURSE;
+    $courseid =  $COURSE->id;
+    $listateliers = get_array_of_activities($courseid);
 
     $dllc->timecreated = time();
     $dllc->salle = $mform->get_data()->salle;
