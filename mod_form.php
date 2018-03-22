@@ -40,9 +40,11 @@ class mod_dllc_mod_form extends moodleform_mod {
 
     /**
      * Defines forms elements
+     * @throws HTML_QuickForm_Error
      */
     public function definition() {
-        global $CFG;
+        global $CFG,$DB;
+
 
         $mform = $this->_form;
 
@@ -73,13 +75,17 @@ class mod_dllc_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'dllcfieldset', get_string('dllcfieldset', 'dllc'));
         $mform->addElement('text','salle',get_string('salle','dllc'));
+        $mform->setType('salle', PARAM_TEXT);
+
         $mform->addElement('text','c_atelier',get_string('c_atelier','dllc'));
+        $mform->setType('c_atelier', PARAM_TEXT);
         $NIVEAU = array(
             'interm' => 'Intermediaire',
             'avance' => 'Avancés',
             'element' => 'Elementaire'
         );
         $mform->addElement('select', 'niveau', get_string('niveau', 'dllc'), $NIVEAU);
+
         $TYPE_ATELIER = array(
             'toeic' => 'Prepatation TOEICS',
             'atelierponc' => 'Ateliers Ponctuels',
@@ -88,6 +94,12 @@ class mod_dllc_mod_form extends moodleform_mod {
         $mform->addElement('select', 'ateliers', get_string('ateliers', 'dllc'), $TYPE_ATELIER);
 
 
+        $mform->addElement('date_time_selector', 'dateheuredebut', get_string('dateheuredebut', 'dllc'));
+
+        $mform->addElement('date_time_selector', 'dateheurefin', get_string('dateheurefin', 'dllc'));
+
+        $mform->addElement('text','nbplacedispo',get_string('nbplacedispo','dllc'));
+        $mform->setType('nbplacedispo',PARAM_INT);
 
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();

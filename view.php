@@ -69,17 +69,65 @@ $PAGE->set_heading(format_string($course->fullname));
  * $PAGE->set_focuscontrol('some-html-id');
  * $PAGE->add_body_class('dllc-'.$somevar);
  */
-
 // Output starts here.
 echo $OUTPUT->header();
 
-// Conditions to show the intro can change to look for own settings or whatever.
-if ($dllc->intro) {
-    echo $OUTPUT->box(format_module_intro('dllc', $dllc, $cm->id), 'generalbox mod_introbox', 'dllcintro');
-}
 
-// Replace the following lines with you own code.
-echo $OUTPUT->heading('Yay! It works!');
+?>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="">
+        <?php
+
+
+        // Conditions to show the intro can change to look for own settings or whatever.
+        if ($dllc->intro) {
+            echo $OUTPUT->box(format_module_intro('dllc', $dllc, $cm->id), 'generalbox mod_introbox', 'dllcintro');
+        }
+        ?>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date Debut</th>
+                <th scope="col">Date Fin</th>
+                <th scope="col">Type Ateliers</th>
+                <th scope="col">Chargé D'atelier</th>
+                <th scope="col">Salle</th>
+                <th scope="col">Niveau</th>
+                <th scope="col">Nombre de Place Disponible</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row"></th>
+                <td><?=$dllc->dateheuredebut?></td>
+                <td><?=$dllc->dateheurefin?></td>
+                <td><?=$dllc->ateliers?></td>
+                <td><?=$dllc->c_atelier?></td>
+                <td><?=$dllc->salle?></td>
+                <td><?=$dllc->niveau?></td>
+                <td><?=$dllc->nbplacedispo?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
+<?php
 
 // Finish the page.
 echo $OUTPUT->footer();
+?>

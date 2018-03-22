@@ -128,6 +128,72 @@ function xmldb_dllc_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        // Define field salle to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('salle', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field salle.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field c_atelier to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('c_atelier', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field c_atelier.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field niveau to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('niveau', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field niveau.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field ateliers type to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('ateliers', XMLDB_TYPE_TEXT, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field ateliers.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field dateheuredebut to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('dateheuredebut', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field dateheuredebut.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field dateheurefin to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('dateheurefin', XMLDB_TYPE_DATETIME, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field dateheurefin.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field nbplacedispo to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('nbplacedispo', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field nbplacedispo.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+
+
+
         // Define index course (not unique) to be added to dllc.
         $table = new xmldb_table('dllc');
         $index = new xmldb_index('courseindex', XMLDB_INDEX_NOTUNIQUE, array('course'));
@@ -143,11 +209,11 @@ function xmldb_dllc_upgrade($oldversion) {
 
     // Third example, the next day, 2007/04/02 (with the trailing 00),
     // some actions were performed to install.php related with the module.
-    if ($oldversion < 2007040200) {
+    if ($oldversion < 2016052308) {
 
         // Insert code here to perform some actions (same as in install.php).
 
-        upgrade_mod_savepoint(true, 2007040200, 'dllc');
+        upgrade_mod_savepoint(true, 2016052308, 'dllc');
     }
 
     /*

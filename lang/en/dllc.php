@@ -35,7 +35,7 @@ $string['dllc:addinstance'] = 'Add a new dllc';
 $string['dllc:submit'] = 'Submit dllc';
 $string['dllc:view'] = 'View dllc';
 $string['dllcfieldset'] = 'Information Atelier ';
-$string['dllcname'] = 'dllc name';
+$string['dllcname'] = 'Nom de l\'atelier';
 $string['dllcname_help'] = 'This is the content of the help tooltip associated with the dllcname field. Markdown syntax is supported.';
 $string['dllc'] = 'dllc';
 $string['pluginadministration'] = 'dllc administration';
@@ -45,3 +45,7 @@ $string['salle'] = 'Salle de l\'atelier';
 $string['c_atelier'] = 'Chargé d\'atelier';
 $string['niveau'] = 'Niveau ';
 $string['ateliers'] = 'Type d\'atelier ';
+$string['dateheuredebut'] = 'Date Debut Atelier ';
+$string['dateheurefin'] = 'Date Fin Atelier';
+$string['nbplacedispo'] = 'Nombre de Place Disponible';
+

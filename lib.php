@@ -78,10 +78,17 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     global $DB;
 
     $dllc->timecreated = time();
-
+    $dllc->salle = $mform->get_data()->salle;
+    $dllc->c_atelier = $mform->get_data()->c_atelier;
+    $dllc->niveau = $mform->get_data()->niveau;
+    $dllc->ateliers = $mform->get_data()->ateliers;
+    $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
+    $dllc->dateheurefin = $mform->get_data()->dateheurefin;
+    $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
     // You may have to add extra stuff in here.
 
     $dllc->id = $DB->insert_record('dllc', $dllc);
+
 
     dllc_grade_item_update($dllc);
 
@@ -104,6 +111,13 @@ function dllc_update_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
 
     $dllc->timemodified = time();
     $dllc->id = $dllc->instance;
+    $dllc->salle = $mform->get_data()->salle;
+    $dllc->c_atelier = $mform->get_data()->c_atelier;
+    $dllc->niveau = $mform->get_data()->niveau;
+    $dllc->ateliers = $mform->get_data()->ateliers;
+    $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
+    $dllc->dateheurefin = $mform->get_data()->dateheurefin;
+    $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
 
     // You may have to add extra stuff in here.
 
@@ -190,6 +204,8 @@ function dllc_user_outline($course, $user, $mod, $dllc) {
     $return = new stdClass();
     $return->time = 0;
     $return->info = '';
+    $return->c_atelier = '';
+
     return $return;
 }
 
