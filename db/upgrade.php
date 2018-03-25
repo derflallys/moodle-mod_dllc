@@ -191,6 +191,17 @@ function xmldb_dllc_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        // Define field idgroup to be added to dllc.
+        $table = new xmldb_table('dllc');
+        $field = new xmldb_field('idgroup', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Add field nbplacedispo.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+
+
 
 
 

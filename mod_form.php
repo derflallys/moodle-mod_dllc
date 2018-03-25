@@ -43,7 +43,7 @@ class mod_dllc_mod_form extends moodleform_mod {
      * @throws HTML_QuickForm_Error
      */
     public function definition() {
-        global $CFG,$DB;
+        global $CFG;
 
 
         $mform = $this->_form;
@@ -74,10 +74,15 @@ class mod_dllc_mod_form extends moodleform_mod {
 
 
         $mform->addElement('header', 'dllcfieldset', get_string('dllcfieldset', 'dllc'));
+
         $mform->addElement('text','salle',get_string('salle','dllc'));
+        $mform->addRule('salle', null, 'required', null, 'client');
         $mform->setType('salle', PARAM_TEXT);
 
         $mform->addElement('text','c_atelier',get_string('c_atelier','dllc'));
+        $mform->addRule('c_atelier', null, 'required', null, 'client');
+
+
         $mform->setType('c_atelier', PARAM_TEXT);
         $NIVEAU = array(
             'interm' => 'Intermediaire',
@@ -85,6 +90,7 @@ class mod_dllc_mod_form extends moodleform_mod {
             'element' => 'Elementaire'
         );
         $mform->addElement('select', 'niveau', get_string('niveau', 'dllc'), $NIVEAU);
+        $mform->addRule('niveau', null, 'required', null, 'client');
 
         $TYPE_ATELIER = array(
             'toeic' => 'Prepatation TOEICS',
@@ -92,14 +98,18 @@ class mod_dllc_mod_form extends moodleform_mod {
             'groupediss' => 'Groupes de Discussions'
         );
         $mform->addElement('select', 'ateliers', get_string('ateliers', 'dllc'), $TYPE_ATELIER);
+        $mform->addRule('ateliers', null, 'required', null, 'client');
 
 
         $mform->addElement('date_time_selector', 'dateheuredebut', get_string('dateheuredebut', 'dllc'));
+        $mform->addRule('dateheuredebut', null, 'required', null, 'client');
 
         $mform->addElement('date_time_selector', 'dateheurefin', get_string('dateheurefin', 'dllc'));
+        $mform->addRule('dateheurefin', null, 'required', null, 'client');
 
         $mform->addElement('text','nbplacedispo',get_string('nbplacedispo','dllc'));
         $mform->setType('nbplacedispo',PARAM_INT);
+        $mform->addRule('nbplacedispo', null, 'required', null, 'client');
 
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();

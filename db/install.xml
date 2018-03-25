@@ -21,6 +21,7 @@
         <FIELD NAME="dateheuredebut" TYPE="int" LENGTH="10" NOTNULL="true"  SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
         <FIELD NAME="dateheurefin" TYPE="int" LENGTH="10" NOTNULL="true"  SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
         <FIELD NAME="nbplacedispo" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="30" SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
+        <FIELD NAME="idgroup" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="30" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

@@ -29,7 +29,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
-
+global $USER;
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // ... dllc instance ID - it should be named as the first character of the module.
 
@@ -71,15 +71,13 @@ $PAGE->set_heading(format_string($course->fullname));
  */
 // Output starts here.
 echo $OUTPUT->header();
+$context = context_module::instance($cm->id);
+
 
 
 ?>
-<html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body>
-    <div class="">
+
+    <div >
         <h1><?=$dllc->name?> du <?=userdate($dllc->dateheuredebut)?></h1>
         <?php
 
@@ -114,21 +112,37 @@ echo $OUTPUT->header();
                 <td><?=$dllc->salle?></td>
                 <td><?=get_string($dllc->niveau,'dllc')?></td>
                 <td><?=$dllc->nbplacedispo?></td>
-                <td><a href="" class="btn btn-primary"> S'inscrire</a></td>
+                <?php
+try {
+    $roles = get_user_roles($context, $USER->id);
+    foreach ($roles as $role) {
+        $rolestr[] = role_get_name($role, $context);
+    }
+    $rolestr = implode(', ', $rolestr);
+    //echo "The users roles are {$rolestr} in course {$cm->id}";
+
+    if (strcmp($rolestr,"Étudiant")!=0) {
+        ?>
+         <td><a href="" class="btn btn-primary"> Modifier</a></td>
+         <td><a href="" class="btn btn-danger"> Supprimer</a></td>
+        <?php
+    }
+    else
+    {
+        ?>
+        <td><a href="" class="btn btn-success"> M'inscire</a></td>
+                <?php
+    }
+    } catch (coding_exception $e) {
+        echo $e;
+    }
+ ?>
+
             </tr>
             </tbody>
         </table>
     </div>
 
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
-</html>
 <?php
 
 // Finish the page.

@@ -63,10 +63,16 @@ $capabilities = array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
-            'guest' => CAP_ALLOW,
-            'user' => CAP_ALLOW,
+            'student' => CAP_PREVENT,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
         )
     ),
+
+
+
+
 
     'mod/dllc:submit' => array(
         'riskbitmask' => RISK_SPAM,

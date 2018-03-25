@@ -35,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * Example constant, you probably want to remove this :-)
  */
 define('DLLC_ULTIMATE_ANSWER', 42);
-
+require_once($CFG->dirroot.'/group/lib.php');
 /* Moodle core API */
 
 /**
@@ -79,6 +79,18 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     $courseid =  $COURSE->id;
     $listateliers = get_array_of_activities($courseid);
 
+    $data = new stdClass();
+    $data->courseid = $courseid;
+    $data->name = 'Participants';
+    $data->description = 'Groupe pour les etudiants inscirts à l\'atelier ';
+    $data->descriptionformat = FORMAT_HTML;
+
+    try {
+        $newgroupid = groups_create_group($data);
+    } catch (moodle_exception $e) {
+        echo $e;
+    }
+
     $dllc->timecreated = time();
     $dllc->salle = $mform->get_data()->salle;
     $dllc->c_atelier = $mform->get_data()->c_atelier;
@@ -87,6 +99,7 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
     $dllc->dateheurefin = $mform->get_data()->dateheurefin;
     $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
+    $dllc->idgroup = $newgroupid ;
     // You may have to add extra stuff in here.
 
     $dllc->id = $DB->insert_record('dllc', $dllc);
