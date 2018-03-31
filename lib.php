@@ -81,7 +81,7 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
 
     $data = new stdClass();
     $data->courseid = $courseid;
-    $data->name = 'Participants';
+    $data->name = 'Participants '+$mform->get_data()->dateheuredebut;
     $data->description = 'Groupe pour les etudiants inscirts à l\'atelier ';
     $data->descriptionformat = FORMAT_HTML;
 
@@ -93,6 +93,7 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
 
     $dllc->timecreated = time();
     $dllc->salle = $mform->get_data()->salle;
+    $dllc->grade = '';
     $dllc->c_atelier = $mform->get_data()->c_atelier;
     $dllc->niveau = $mform->get_data()->niveau;
     $dllc->ateliers = $mform->get_data()->ateliers;
@@ -102,7 +103,11 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     $dllc->idgroup = $newgroupid ;
     // You may have to add extra stuff in here.
 
-    $dllc->id = $DB->insert_record('dllc', $dllc);
+    try {
+        $dllc->id = $DB->insert_record('dllc', $dllc);
+    } catch (dml_exception $e) {
+        echo $e;
+    }
 
 
     dllc_grade_item_update($dllc);
@@ -133,6 +138,35 @@ function dllc_update_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
     $dllc->dateheurefin = $mform->get_data()->dateheurefin;
     $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
+
+    // You may have to add extra stuff in here.
+
+    $result = $DB->update_record('dllc', $dllc);
+
+    dllc_grade_item_update($dllc);
+
+    return $result;
+}
+
+/**
+ * @param stdClass $dllc
+ * @param $nbparticipants
+ * @return bool
+ * @throws dml_exception
+ */
+function dllc_update_nbparticipants($dllc,$nbparticipants)
+{
+    global $DB;
+
+    $dllc->timemodified = time();
+    $dllc->id = $dllc->id;
+    $dllc->salle = $dllc->salle;
+    $dllc->c_atelier = $dllc->c_atelier;
+    $dllc->niveau = $dllc->niveau;
+    $dllc->ateliers = $dllc->ateliers;
+    $dllc->dateheuredebut = $dllc->dateheuredebut;
+    $dllc->dateheurefin = $dllc->dateheurefin;
+    $dllc->nbplacedispo = $nbparticipants;
 
     // You may have to add extra stuff in here.
 

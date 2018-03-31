@@ -70,6 +70,7 @@ $PAGE->set_heading(format_string($course->fullname));
  * $PAGE->add_body_class('dllc-'.$somevar);
  */
 // Output starts here.
+$PAGE->set_periodic_refresh_delay(10);
 echo $OUTPUT->header();
 $context = context_module::instance($cm->id);
 
@@ -122,15 +123,47 @@ try {
     //echo "The users roles are {$rolestr} in course {$cm->id}";
 
     if (strcmp($rolestr,"Étudiant")!=0) {
+        $params['idgroup'] = $dllc->idgroup;
+        $params['cmid'] = $cm->instance;
+        $link = new moodle_url('/mod/dllc/listparticipants.php',$params);
+        $action =  new popup_action('click',$link,"Participants",array('height' => 800, 'width' => 900));
         ?>
-         <td><a href="" class="btn btn-primary"> Modifier</a></td>
-         <td><a href="" class="btn btn-danger"> Supprimer</a></td>
+
+         <td>
+             <?php
+             echo $OUTPUT->action_link($link, 'Voir la liste des participants', $action,array('title' => 'liste des participants '.userdate($dllc->dateheuredebut)));
+             ?>
+         </td>
+
         <?php
     }
     else
     {
         ?>
-        <td><a href="" class="btn btn-success"> M'inscire</a></td>
+        <td>
+            <?php
+            $params['iduser'] = $USER->id;
+            $params['idgroup'] = $dllc->idgroup;
+            $params['nbparticipants'] = $dllc->nbplacedispo;
+            $params['cmid'] = $cm->instance;
+
+            if(!groups_is_member($dllc->idgroup,$USER->id))
+            {
+                $link = new moodle_url('/mod/dllc/inscription.php',$params);
+                $action =  new popup_action('click',$link,"Inscription");
+                echo $OUTPUT->action_link($link, 'M\'inscrire', $action,array('title' => 'Inscription Atelier du '.userdate($dllc->dateheuredebut)));
+
+            }
+            else
+            {
+                $link = new moodle_url('/mod/dllc/unregister.php',$params);
+                $action =  new popup_action('click',$link,"Desinscrition");
+                echo $OUTPUT->action_link($link, 'Se desinscrire', $action,array('title' => 'Desinscription Atelier du '.userdate($dllc->dateheuredebut)));
+
+
+            }
+        ?>
+        </td>
                 <?php
     }
     } catch (coding_exception $e) {
