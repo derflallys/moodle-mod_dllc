@@ -54,4 +54,11 @@ $string['groupediss'] = 'Groupes de Discussions';
 $string['interm'] = 'Intermediaire';
 $string['avance'] = 'Avancés';
 $string['element'] = 'Elementaire';
+$string['erroraddingdllc'] = 'Erreur lors de l\'ajout de l\'atelier du au chevauchement des donnees d\'ateliers';
+$string['timerule'] = "La date et l'heure de debut ne doit pas etre superieur à la date et l'heure de fin";
+$string['datenotmatch'] = "Les dates de debut et de fin doivent etre  identique";
+$string['err_numeric']='Le champ doit contenir un entier';
+$string['err_alphanumeric']='Le champ doit contenir des caracteres alphanumeric ';
+$string['timeequals']='Les deux dates doivent etre differentes';
+$string['timepast']='La date  que vous avez choisi est dans le passé';
 

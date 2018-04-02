@@ -54,6 +54,19 @@ class mod_dllc_mod_form extends moodleform_mod {
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('dllcname', 'dllc'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
+
+
+
+
+
+
+
+
+
+
+
+
+
             $mform->setType('name', PARAM_TEXT);
         } else {
             $mform->setType('name', PARAM_CLEANHTML);
@@ -116,5 +129,71 @@ class mod_dllc_mod_form extends moodleform_mod {
 
         // Add standard buttons, common to all modules.
         $this->add_action_buttons();
+    }
+
+    public function validation($data, $files)
+    {
+        $errors = parent::validation($data, $files);
+        if($data['dateheuredebut'] && $data['dateheurefin'])
+        {
+            if($data['dateheuredebut']<time())
+            {
+                $errors['dateheuredebut'] =get_string('timepast','dllc');
+
+            }
+            if($data['dateheuredebut']==$data['dateheurefin'])
+            {
+                $errors['dateheurefin'] =get_string('timeequals','dllc');
+            }
+            if( $data['dateheuredebut']>$data['dateheurefin'])
+            {
+                $errors['dateheurefin'] =get_string('timerule','dllc');
+            }
+
+
+        }
+
+        if($data['dateheuredebut'] && $data['dateheurefin'])
+        {
+            $time =$data['dateheurefin']-$data['dateheuredebut'];
+            $datediff = array(
+                'year'        => $time / 31556926 % 12,
+                'week'        =>$time/ 604800 % 52,
+                'day'        => $time/ 86400 % 7,
+                'hour'        => $time / 3600 % 24,
+                'minute'    => $time/ 60 % 60,
+                'second'    =>$time % 60
+            );
+
+            echo $datediff['day'];
+            echo'<br>';
+
+            if($datediff['day']!=0)
+            {
+                $errors['dateheuredebut'] =get_string('datenotmatch','dllc');
+            }
+
+
+        }
+
+        if($data['nbplacedispo'])
+        {
+            if ( strval($data['nbplacedispo']) != strval(intval($data['nbplacedispo'])) ) {
+                $errors['nbplacedispo'] =get_string('err_numeric','dllc');
+
+            }
+        }
+
+        if($data['salle'])
+        {
+            if (strval($data['salle']) != strval(intval($data['salle'])) && !preg_match('/^[a-zA-Z]+[a-zA-Z0-9._]+$/', $data['salle']) ) {
+                $errors['salle'] =get_string('err_alphanumeric','dllc');
+
+            }
+        }
+
+
+
+        return $errors;
     }
 }

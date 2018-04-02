@@ -26,7 +26,7 @@ if($cmid)
 </head>
 <body>
     <div class="container">
-        <h1>Inscription <?=$dllc->name?> du <?=userdate($dllc->dateheuredebut)?> </h1>
+        <h5>Inscription <?=$dllc->name?> du <?=userdate($dllc->dateheuredebut)?> </h5>
     <?php
     try {
         if($nbparticipants+1>$nbparticipants)

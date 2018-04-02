@@ -29,14 +29,19 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
+require_once('../../course/lib.php');
 global $USER;
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // ... dllc instance ID - it should be named as the first character of the module.
 
 if ($id) {
-    $cm         = get_coursemodule_from_id('dllc', $id, 0, false, MUST_EXIST);
+
+    $cm = get_coursemodule_from_id('dllc', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $dllc  = $DB->get_record('dllc', array('id' => $cm->instance), '*', MUST_EXIST);
+    $return = course_get_url($course);
+
+
 } else if ($n) {
     $dllc  = $DB->get_record('dllc', array('id' => $n), '*', MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $dllc->course), '*', MUST_EXIST);
@@ -45,7 +50,9 @@ if ($id) {
     error('You must specify a course_module ID or an instance ID');
 }
 
+
 require_login($course, true, $cm);
+
 
 $event = \mod_dllc\event\course_module_viewed::create(array(
     'objectid' => $PAGE->cm->instance,
@@ -60,17 +67,26 @@ $event->trigger();
 $PAGE->set_url('/mod/dllc/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($dllc->name));
 $PAGE->set_heading(format_string($course->fullname));
-
-
+$PAGE->set_periodic_refresh_delay(10);
+if($dllc->dateheurefin<time())
+{
+    try {
+        course_delete_module($cm->id);
+    } catch (moodle_exception $e) {
+        echo $e;
+    }
+    dllc_delete_instance($dllc->id);
+    redirect($return);
+}
 
 /*
  * Other things you may want to set - remove if not needed.
- * $PAGE->set_cacheable(false);
+ * $PAGE->set_cacheable(false);s
  * $PAGE->set_focuscontrol('some-html-id');
  * $PAGE->add_body_class('dllc-'.$somevar);
  */
 // Output starts here.
-$PAGE->set_periodic_refresh_delay(10);
+
 echo $OUTPUT->header();
 $context = context_module::instance($cm->id);
 
@@ -100,6 +116,7 @@ $context = context_module::instance($cm->id);
                 <th scope="col">Salle</th>
                 <th scope="col">Niveau</th>
                 <th scope="col">Nombre de Place Disponible</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -135,6 +152,18 @@ try {
              ?>
          </td>
 
+        <td>
+             <?php
+             $params['id'] = $id;
+             $link = new moodle_url('/mod/dllc/deleteateliers.php',$params);
+             $action =  new popup_action('click',$link,"Supprimer",array('height' => 500, 'width' => 600));
+             echo $OUTPUT->action_link($link, 'Supprimer', $action,array('title' => 'Supprimer atelier '.userdate($dllc->dateheuredebut)));
+
+             ?>
+         </td>
+
+
+
         <?php
     }
     else
@@ -156,6 +185,7 @@ try {
             }
             else
             {
+
                 $link = new moodle_url('/mod/dllc/unregister.php',$params);
                 $action =  new popup_action('click',$link,"Desinscrition");
                 echo $OUTPUT->action_link($link, 'Se desinscrire', $action,array('title' => 'Desinscription Atelier du '.userdate($dllc->dateheuredebut)));
