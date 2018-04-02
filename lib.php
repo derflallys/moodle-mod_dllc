@@ -62,59 +62,7 @@ function dllc_supports($feature) {
     }
 }
 
-/**
- * @param mod_dllc_mod_form $mform
- * @throws coding_exception
- * @throws dml_exception
- * @throws moodle_exception
- * @return boolean
- */
-function check_overlap_dllc(mod_dllc_mod_form $mform)
-{
-    global $DB,$COURSE;
-    $courseid =  $COURSE->id;
-    $listateliers = get_array_of_activities($courseid);
-    /*echo 'mform';
-    echo '<br>';
-    echo $mform->get_data()->dateheuredebut;
-    echo '<br>';
-    echo $mform->get_data()->dateheurefin;
-    echo '<br>';
-    echo 'old';
-    echo '<br>'; */
-    $insert = true;
-    foreach ($listateliers as $atelier) {
 
-        if($atelier->mod=== 'dllc')
-        {
-            if($atelier->name != false)
-            {
-
-                $cm = get_coursemodule_from_id('dllc', $atelier->cm, 0, false, MUST_EXIST);
-
-                $olddllc  = $DB->get_record('dllc', array('id' => $cm->instance), '*', MUST_EXIST);
-               /* echo $olddllc->name;
-                echo '<br>';
-                echo $olddllc->dateheuredebut;
-                echo '<br>';
-                echo $olddllc->dateheurefin;
-                echo '<br>';
-                echo '<br>'; */
-
-                if($olddllc->dateheuredebut<=$mform->get_data()->dateheuredebut && $olddllc->dateheurefin>=$mform->get_data()->dateheurefin && $olddllc->salle===$mform->get_data()->salle)
-                {
-                    $insert = false;
-                    break;
-
-                }
-
-
-            }
-        }
-    }
-
-    return $insert;
-}
 
 /**
  * Saves a new instance of the dllc into the database
@@ -132,42 +80,37 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     global $DB,$COURSE;
     $courseid =  $COURSE->id;
 
-    $insert = check_overlap_dllc($mform);
-    if($insert){
-        $data = new stdClass();
-        $data->courseid = $courseid;
-        $data->name = 'Participants '.$mform->get_data()->dateheuredebut;
-        $data->description = 'Groupe pour les etudiants inscirts à l\'atelier ';
-        $data->descriptionformat = FORMAT_HTML;
-        try {
-            $newgroupid = groups_create_group($data);
-        } catch (moodle_exception $e) {
-            echo $e;
-        }
-        $dllc->timecreated = time();
-        $dllc->salle = $mform->get_data()->salle;
-        $dllc->grade = '';
-        $dllc->c_atelier = $mform->get_data()->c_atelier;
-        $dllc->niveau = $mform->get_data()->niveau;
-        $dllc->ateliers = $mform->get_data()->ateliers;
-        $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
-        $dllc->dateheurefin = $mform->get_data()->dateheurefin;
-        $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
-        $dllc->idgroup = $newgroupid ;
-
-        try {
-            $dllc->id = $DB->insert_record('dllc', $dllc);
-        } catch (dml_exception $e) {
-            echo $e;
-        }
-        dllc_grade_item_update($dllc);
-
-        return $dllc->id;
+    $data = new stdClass();
+    $data->courseid = $courseid;
+    $data->name = 'Participants '.$mform->get_data()->dateheuredebut;
+    $data->description = 'Groupe pour les etudiants inscirts à l\'atelier ';
+    $data->descriptionformat = FORMAT_HTML;
+    try {
+        $newgroupid = groups_create_group($data);
+    } catch (moodle_exception $e) {
+        echo $e;
     }
-    else
-    {
-        print_error('erroraddingdllc','Erreur lors de l\'ajout de l\'atelier du au chevauchement des donnees d\'ateliers');
+    $dllc->timecreated = time();
+    $dllc->salle = $mform->get_data()->salle;
+    $dllc->grade = '';
+    $dllc->c_atelier = $mform->get_data()->c_atelier;
+    $dllc->niveau = $mform->get_data()->niveau;
+    $dllc->ateliers = $mform->get_data()->ateliers;
+    $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
+    $dllc->dateheurefin = $mform->get_data()->dateheurefin;
+    $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
+    $dllc->idgroup = $newgroupid ;
+
+    try {
+        $dllc->id = $DB->insert_record('dllc', $dllc);
+    } catch (dml_exception $e) {
+        echo $e;
     }
+    dllc_grade_item_update($dllc);
+
+    return $dllc->id;
+
+
 
 }
 
@@ -184,30 +127,26 @@ function dllc_add_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
  */
 function dllc_update_instance(stdClass $dllc, mod_dllc_mod_form $mform = null) {
     global $DB;
-    $insert = check_overlap_dllc($mform);
-    if ($insert){
-        $dllc->timemodified = time();
-        $dllc->id = $dllc->instance;
-        $dllc->salle = $mform->get_data()->salle;
-        $dllc->c_atelier = $mform->get_data()->c_atelier;
-        $dllc->niveau = $mform->get_data()->niveau;
-        $dllc->ateliers = $mform->get_data()->ateliers;
-        $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
-        $dllc->dateheurefin = $mform->get_data()->dateheurefin;
-        $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
 
-        // You may have to add extra stuff in here.
+    $dllc->timemodified = time();
+    $dllc->id = $dllc->instance;
+    $dllc->grade = '';
+    $dllc->salle = $mform->get_data()->salle;
+    $dllc->c_atelier = $mform->get_data()->c_atelier;
+    $dllc->niveau = $mform->get_data()->niveau;
+    $dllc->ateliers = $mform->get_data()->ateliers;
+    $dllc->dateheuredebut = $mform->get_data()->dateheuredebut;
+    $dllc->dateheurefin = $mform->get_data()->dateheurefin;
+    $dllc->nbplacedispo = $mform->get_data()->nbplacedispo;
 
-        $result = $DB->update_record('dllc', $dllc);
+    // You may have to add extra stuff in here.
 
-        dllc_grade_item_update($dllc);
+    $result = $DB->update_record('dllc', $dllc);
 
-        return $result;
-    }
-    else{
-        print_string('erroraddingdllc','dllc');
-        return -1;
-    }
+    dllc_grade_item_update($dllc);
+
+    return $result;
+
 
 }
 

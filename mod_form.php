@@ -54,19 +54,6 @@ class mod_dllc_mod_form extends moodleform_mod {
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('dllcname', 'dllc'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
-
-
-
-
-
-
-
-
-
-
-
-
-
             $mform->setType('name', PARAM_TEXT);
         } else {
             $mform->setType('name', PARAM_CLEANHTML);
@@ -131,6 +118,39 @@ class mod_dllc_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
+    public function check_overlap_dllc($data)
+    {
+        global $DB,$COURSE;
+        $courseid =  $COURSE->id;
+        $listateliers = get_array_of_activities($courseid);
+
+        $insert = true;
+        foreach ($listateliers as $atelier) {
+
+            if($atelier->mod=== 'dllc')
+            {
+                if($atelier->name != false)
+                {
+
+                    $cm = get_coursemodule_from_id('dllc', $atelier->cm, 0, false, MUST_EXIST);
+
+                    $olddllc  = $DB->get_record('dllc', array('id' => $cm->instance), '*', MUST_EXIST);
+
+                    if($olddllc->dateheuredebut<=$data['dateheuredebut'] && $olddllc->dateheurefin>=$data['dateheurefin'] && $olddllc->salle===$data['salle'])
+                    {
+                        $insert = false;
+                        break;
+
+                    }
+
+
+                }
+            }
+        }
+
+        return $insert;
+    }
+
     public function validation($data, $files)
     {
         $errors = parent::validation($data, $files);
@@ -165,8 +185,6 @@ class mod_dllc_mod_form extends moodleform_mod {
                 'second'    =>$time % 60
             );
 
-            echo $datediff['day'];
-            echo'<br>';
 
             if($datediff['day']!=0)
             {
@@ -192,8 +210,45 @@ class mod_dllc_mod_form extends moodleform_mod {
             }
         }
 
+        global $DB,$COURSE;
+        $courseid =  $COURSE->id;
+        $listateliers = get_array_of_activities($courseid);
+
+        $insert = true;
+        foreach ($listateliers as $atelier) {
+
+            if($atelier->mod=== 'dllc')
+            {
+                if($atelier->name != false)
+                {
+
+                    $cm = get_coursemodule_from_id('dllc', $atelier->cm, 0, false, MUST_EXIST);
+
+                    $olddllc  = $DB->get_record('dllc', array('id' => $cm->instance), '*', MUST_EXIST);
+
+
+
+                    if($olddllc->dateheuredebut<=$data['dateheuredebut'] && $olddllc->dateheurefin>=$data['dateheurefin'] && strcmp($olddllc->salle,$data['salle'])==0)
+                    {
+
+                        $insert = false;
+                        break;
+
+                    }
+
+
+                }
+            }
+        }
+        if(!$insert)
+        {
+            $errors['salle'] =get_string('atelieroverlap','dllc');
+        }
+
 
 
         return $errors;
     }
+
+
 }

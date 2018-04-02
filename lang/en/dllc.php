@@ -61,4 +61,5 @@ $string['err_numeric']='Le champ doit contenir un entier';
 $string['err_alphanumeric']='Le champ doit contenir des caracteres alphanumeric ';
 $string['timeequals']='Les deux dates doivent etre differentes';
 $string['timepast']='La date  que vous avez choisi est dans le passé';
+$string['atelieroverlap']='Il y\'a des chevauchements au niveau des dates et salle  par rapport aux autres ateliers';
 
