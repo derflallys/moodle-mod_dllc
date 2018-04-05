@@ -29,7 +29,7 @@ if($cmid)
         <h5>Inscription <?=$dllc->name?> du <?=userdate($dllc->dateheuredebut)?> </h5>
     <?php
     try {
-        if($nbparticipants+1>$nbparticipants)
+        if($nbparticipants-1>0)
         {
             if(groups_is_member($idgroup,$id_user))
             {

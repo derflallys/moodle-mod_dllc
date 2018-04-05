@@ -153,6 +153,7 @@ class mod_dllc_mod_form extends moodleform_mod {
 
     public function validation($data, $files)
     {
+
         $errors = parent::validation($data, $files);
         if($data['dateheuredebut'] && $data['dateheurefin'])
         {
@@ -194,13 +195,23 @@ class mod_dllc_mod_form extends moodleform_mod {
 
         }
 
-        if($data['nbplacedispo'])
+
+        if(isset($data['nbplacedispo']))
+        {
+            if ($data['nbplacedispo']<=0) {
+                $errors['nbplacedispo'] =get_string('err_numeric','dllc');
+
+            }
+        }
+
+        if(isset($data['nbplacedispo']))
         {
             if ( strval($data['nbplacedispo']) != strval(intval($data['nbplacedispo'])) ) {
                 $errors['nbplacedispo'] =get_string('err_numeric','dllc');
 
             }
         }
+
 
         if($data['salle'])
         {
@@ -215,6 +226,7 @@ class mod_dllc_mod_form extends moodleform_mod {
         $listateliers = get_array_of_activities($courseid);
 
         $insert = true;
+
         foreach ($listateliers as $atelier) {
 
             if($atelier->mod=== 'dllc')
@@ -228,7 +240,7 @@ class mod_dllc_mod_form extends moodleform_mod {
 
 
 
-                    if($olddllc->dateheuredebut<=$data['dateheuredebut'] && $olddllc->dateheurefin>=$data['dateheurefin'] && strcmp($olddllc->salle,$data['salle'])==0)
+                    if($olddllc->id != $data['instance']  && $olddllc->dateheuredebut<=$data['dateheuredebut'] && $olddllc->dateheurefin>=$data['dateheurefin'] && strcmp($olddllc->salle,$data['salle'])==0 )
                     {
 
                         $insert = false;

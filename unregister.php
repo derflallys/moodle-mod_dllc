@@ -29,8 +29,7 @@ if($cmid)
     <h1>Desinscription de l'atelier <?=userdate($dllc->dateheuredebut)?> </h1>
     <?php
     try {
-        if($nbparticipants-1>0)
-        {
+
             if(!groups_is_member($idgroup,$id_user))
             {
                 echo '<div class="alert alert-info" role="alert">
@@ -48,14 +47,6 @@ if($cmid)
 
             }
 
-
-        }
-        else
-        {
-            echo  '<div class="alert alert-warning" role="alert">
-                  Erreur con 
-                </div>';
-        }
 
     } catch (coding_exception $e) {
         echo '<div class="alert alert-danger" role="alert">
