@@ -156,8 +156,11 @@ try {
              <?php
              $params['id'] = $id;
              $link = new moodle_url('/mod/dllc/deleteateliers.php',$params);
-             $action =  new popup_action('click',$link,"Supprimer",array('height' => 500, 'width' => 600));
-             echo $OUTPUT->action_link($link, 'Supprimer', $action,array('title' => 'Supprimer atelier '.userdate($dllc->dateheuredebut)));
+             $deletebutton = new single_button($link,'Supprimer',null,array('title' => 'Supprimer atelier '.userdate($dllc->dateheuredebut)));
+
+             $actiondelete = new confirm_action("Voulez vous vraiment supprimez l'atetlier");
+             $deletebutton->add_action($actiondelete);
+             echo $OUTPUT->render($deletebutton);
 
              ?>
          </td>

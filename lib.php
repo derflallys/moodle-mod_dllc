@@ -572,3 +572,7 @@ function dllc_extend_navigation(navigation_node $navref, stdClass $course, stdCl
 function dllc_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $dllcnode=null) {
     // TODO Delete this function and its docblock, or implement it.
 }
+function redir ($return)
+{
+    redirect($return);
+};
